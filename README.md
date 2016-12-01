@@ -1,6 +1,6 @@
-# 码志
+# 张建新
 
-我的个人博客：<http://AIDDY.ME>，欢迎 Star 和 Fork。
+我的个人博客：<http://js-bin.com>，欢迎 Star 和 Fork。
 
 ## 概览
 
@@ -12,9 +12,9 @@
 
 ## 效果预览
 
-### [在线预览 &rarr;](http://AIDDY.ME)
+### [在线预览 &rarr;](http://js-bin.com)
 
-![screenshot home](http://mazhuang.org/assets/images/screenshots/home.png)
+![screenshot home](http://js-bin.com/assets/images/screenshots/home.png)
 
 ## Fork 指南
 
@@ -74,3 +74,5 @@ Fork 本项目之后，还需要做一些事情才能让你的页面「正确」
 [1]: https://github.com/mzlogin/chinese-copywriting-guidelines
 [2]: https://help.github.com/articles/setting-up-your-pages-site-locally-with-jekyll/
 [3]: https://github.com/mzlogin/mzlogin.github.io/issues/2
+
+#感谢漠然https://github.com/mritd
