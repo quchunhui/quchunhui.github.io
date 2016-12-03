@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: http://js-bin.com
+url: http://firsh.me
 date_format: "ordinal"
 title: 飞鱼， dataplay
 subtitle: "打码改变人生"
