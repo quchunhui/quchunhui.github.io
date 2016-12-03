@@ -72,6 +72,7 @@ gems:
     - jekyll-feed
     - jemoji
 #     - jekyll-mentions
+    - jekyll-github-metadata
 collections:
     wiki:
         output: true
