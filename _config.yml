@@ -109,9 +109,9 @@ google:
 # ---------------- #
 #      Datas       #
 # ---------------- #
-skill_software_keywords: [Java, C++, Python, Design Patterns]
-skill_mobile_app_keywords: [Android, Reverse Engineering]
-skill_windows_keywords: [Win32 SDK, DuiLib, WTL, COM, WinDbg]
+skill_software_keywords: [Java, C, Python, Golang,前端]
+skill_mobile_app_keywords: [Android, Wex5, phoneGap]
+#skill_windows_keywords: [Win32 SDK, DuiLib, WTL, COM, WinDbg]
 
 # ---------------- #
 # Github metadata  #
