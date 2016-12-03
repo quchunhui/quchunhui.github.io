@@ -14,7 +14,7 @@
 
 ### [在线预览 &rarr;](http://js-bin.com)
 
-![screenshot home](http://js-bin.com/assets/images/screenshots/home.png)
+#![screenshot home](http://js-bin.com/assets/images/screenshots/home.png)
 
 ## Fork 指南
 
