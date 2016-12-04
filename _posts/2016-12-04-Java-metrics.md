@@ -36,18 +36,17 @@ keywords: Java, GitHub Pages
     </dependency>
 ```
 * 核心工具类
-```java
+
+```html
 import com.codahale.metrics.*;
 import com.ktyh.think.filter.prometheus.DropwizardExportSetUp;
 import io.prometheus.client.CollectorRegistry;
 import metrics_influxdb.InfluxdbReporter;
 import metrics_influxdb.api.protocols.InfluxdbProtocols;
 import org.slf4j.LoggerFactory;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.util.concurrent.TimeUnit;
-
 /**
  * Created by zhangjianxin on 2016/11/3.
  * metrics core config and static void formart
