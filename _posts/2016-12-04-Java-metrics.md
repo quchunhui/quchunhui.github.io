@@ -11,6 +11,7 @@ keywords: Java, GitHub Pages
 ## 文档
 
 *Maven
+
 ```code
  <!--  metrics * -->
     <dependency>
@@ -35,7 +36,7 @@ keywords: Java, GitHub Pages
     </dependency>
 ```
 * 核心工具类
-```code
+```java
 import com.codahale.metrics.*;
 import com.ktyh.think.filter.prometheus.DropwizardExportSetUp;
 import io.prometheus.client.CollectorRegistry;
@@ -211,8 +212,10 @@ public class MetricsCore {
 }
 
 ```
-# 目前这种方式只是将数据推送到influxdb ，以及prometheus 。
+##目前这种方式只是将数据推送到influxdb ，以及prometheus 。
 
-[1] 数据采集
-[2] 采集点(Filter,Controller,Service)
-[3] 数据推送(influxdb,primetheus,jmx,console,cvs等。)
+1 数据采集
+
+2 采集点(Filter,Controller,Service)
+
+3 数据推送(influxdb,primetheus,jmx,console,cvs等。)
