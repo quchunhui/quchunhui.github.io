@@ -19,18 +19,21 @@ keywords: Java, GitHub Pages
 
 ####双向认证方式是最为严格和安全的集群安全配置方式，主要配置流程如下：
 
-生成根证书、API Server 服务端证书、服务端私钥、各个组件所用的客户端证书和客户端私钥。
-修改 Kubernetes 各个服务进程的启动参数，启用双向认证模式。
-详细的配置操作流程如下：
+* 生成根证书、API Server 服务端证书、服务端私钥、各个组件所用的客户端证书和客户端私钥。
+* 修改 Kubernetes 各个服务进程的启动参数，启用双向认证模式。
+* 详细的配置操作流程如下：
 
 ####生成根证书
+
 #####用 openssl 工具生成 CA 证书，请注意将其中 subject 等参数改为用户所需的数据，CN 的值通常是域名、主机名或 IP 地址。
+
 ```html
 $ cd /var/run/kubernetes
 $ openssl genrsa -out dd_ca.key 2048
 $ openssl req -x509 -new -nodes -key dd_ca.key -subj "/CN=YOUDOMAIN.COM" -days 5000 -out dd_ca.crt
 ```
 #####生成 API Server 服务端证书和私钥
+
 ```html
 $ openssl genrsa -out dd_server.key 2048
 $ HN=`hostname`
@@ -38,6 +41,7 @@ $ openssl req -new -key dd_server.key -subj "/CN=$HN" -out dd_server.csr
 $ openssl x509 -req -in dd_server.csr -CA dd_ca.crt -CAkey dd_ca.key -CAcreateserial-out dd_server.crt -days 5000
 ```
 #####生成 Controller Manager 与 Scheduler 进程共用的证书和私钥
+
 ```html
 $ openssl genrsa -out dd_cs_client.key 2048
 $ openssl req -new -key dd_cs_client.key -subj "/CN=$HN" -out dd_cs_client.csr
@@ -45,6 +49,7 @@ $ openssl x509 -req -in dd_cs_client.csr －CA dd_ca.crt -CAkey dd_ca.key -CAcre
 ```
 #####生成 Kubelet 所用的客户端证书和私钥
 ######注意，这里假设 Kubelet 所在机器的 IP 地址为 192.168.1.129。
+
 ```html
 $ openssl genrsa -out dd_kubelet_client.key 2048
 $ openssl req -new -key dd_kubelet_client.key -subj "/CN=192.168.1.129" -out dd_kubelet_client.csr
@@ -60,6 +65,7 @@ KUBE_API_ARGS="--log-dir=/var/log/kubernetes --secure-port=443 --client_ca_file=
 ####重启 kube-apiserver 服务：
 ####systemctl restart kube-apiserver
 ####验证 API Server 的 HTTPS 服务。
+
 ```html
 $ curl https://kubernetes-master:443/api/v1/nodes --cert /var/run/kubernetes/dd_cs_client.crt --key /var/run/kubernetes/dd_cs_client.key --cacert /var/run/kubernetes/dd_ca.crt
 修改 Controller Manager 的启动参数
@@ -68,6 +74,7 @@ KUBE_CONTROLLER_MANAGER_ARGS="--log-dir=/var/log/kubernetes --service_account_pr
 ```
 
 * 创建/etc/kubernetes/cmkubeconfig 文件，配置证书等相关参数，具体内容如下：
+
 ```html
 apiVersion: v1
 kind: Config
@@ -92,12 +99,15 @@ current-context: my-context
 # systemctl restart kube-controller-manager
 * 配置各个节点上的 Kubelet 进程
 * 复制 Kubelet 的证书、私钥 与 CA 根证书到所有 Node 上。
+
 ```html
 $ scp /var/run/kubernetes/dd_kubelet* root@kubernetes-minion1:/home
 $ scp /var/run/kubernetes/dd_ca.* root@kubernetes-minion:/home
 ```
 
 * 在每个 Node 上创建/var/lib/kubelet/kubeconfig 文件，内容如下：
+
+
 ```
 apiVersion: v1
 kind: Config
@@ -119,6 +129,8 @@ current-context: my-context
 ```
 
 * 修改 Kubelet 的启动参数，以修改/etc/kubernetes/kubelet 配置文件为例：
+
+
 ```
 KUBELET_API_SERVER="--api_servers=https://kubernetes-master:443"
 KUBELET_ARGS="--pod_infro_container_image=192.168.1.128:1180/google_containers/pause:latest --cluster_dns=10.2.0.100 --cluster_domain=cluster.local --kubeconfig=/var/lib/kubelet/kubeconfig"
@@ -151,6 +163,7 @@ current-context: my-context
 ```
 
 * 然后，修改 kube-proxy 的启动参数，引用上述文件并指明 API Server 在安全模式下的访问地址，以修改配置文件/etc/kubenetes/proxy 为例：
+
 ```
 KUBE_PROXY_ARGS="--kubeconfig=/var/lib/kubeproxy/proxykubeconfig --master=https://kubenetes-master:443"
 ```
@@ -167,6 +180,8 @@ KUBE_PROXY_ARGS="--kubeconfig=/var/lib/kubeproxy/proxykubeconfig --master=https:
 #### API Server 基于 Token 认证的配置过程如下
 
 * 建立包括用户名、密码和 UID 的文件 token_auth_file：
+
+
 ```
 $ cat /root/token_auth_file
 dingmingk,dingmingk,1
@@ -191,6 +206,8 @@ $ curl https://kubenetes-master:443/version --header "Authorization: Bearer ding
 * API Server 基于 HTTP Base 认证的配置过程如下
 
 * 创建包括用户名、密码和 UID 的文件 basic_auth_file：
+
+
 ```
 $ cat /root/basic_auth_file
 dingmingk,dingmingk,1
@@ -199,13 +216,16 @@ system,system,3
 ```
 
 * 修改 API Server 的配置，采用上述文件进行安全认证
+
 ```$ vi /etc/kubernetes/apiserver```
 
 ```KUBE_API_ARGS="--secure-port=443 --basic_auth_file=/root/basic_auth_file"```
+
 ### 重启 API Server 服务
 
 ### systemctl restart kube-apiserver
 * 用 curl 验证连接 API Server
+
 ```html
 $ curl https://kubernetes-master:443/version --basic -u dingmingk:dingmingk -k
 {
@@ -230,14 +250,17 @@ kubectl config set-cluster NAME [--server=server] [--certificate-authority=path/
 ```
 * 示例
 # 仅设置e2e集群项中的server字段，不影响其他字段
+
 ```html
 kubectl config set-cluster e2e --server=https://1.2.3.4
 ```
 # 向e2e集群项中添加认证鉴权数据
+
 ```html
 kubectl config set-cluster e2e --certificate-authority=~/.kube/e2e/kubernetes.ca.crt
 ```
 ####取消dev集群项中的证书检查
+
 ```html
 kubectl config set-cluster e2e --insecure-skip-tls-verify=true
 选项
