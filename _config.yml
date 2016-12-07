@@ -4,10 +4,9 @@
 baseurl:
 url: quchunhui.github.io
 date_format: "ordinal"
-title: 飞鱼。
-subtitle: "打码改变人生"
+title: 老牛。
+subtitle: "做有意义的事"
 description: "个人博客"
-keywords: , Zhuang Ma, mzlogin, mazhuang,docker,Docker,Dockerfile,zmatsh
 favicon: /favicon.ico
 timezone: Asia/Shanghai
 encoding: "utf-8"
@@ -17,11 +16,11 @@ side_bar_repo_limit: 5
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: 飞鱼
+author: 老牛
 organization: winhong, Inc.
 organization_url: https://winhong.com
 location: Beijing, China
-email: zhang-rd-fe@s139.org
+email: quchunhui@163.com
 
 # ---------------- #
 #    Navigation    #
@@ -85,9 +84,9 @@ collections:
 # ---------------- #
 #      Socials     #
 # ---------------- #
-github_username: zmatsh
+github_username: quchunhui
 #douban_username: zmatsh
-facebook_username: zmatsh
+#facebook_username: zmatsh
 #weibo_username: zmatsh
 #zhihu_username: zmatsh
 #twitter_username: zmatsh
